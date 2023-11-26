@@ -1,10 +1,19 @@
-import { posts } from '@/data/posts'
+import prisma from '@/lib/db'
 import Link from 'next/link'
 
-const page = () => {
+const page = async () => {
+	const posts = await prisma.post.findMany({
+		orderBy: {
+			createdAt: 'desc',
+		},
+		include: {
+			author: true,
+		},
+	})
+
 	return (
 		<div className='max-w-2xl mx-auto py-5'>
-			<h1 className='font-bold text-3xl mb-4'>Post</h1>
+			<h1 className='font-bold text-3xl mb-4'>Posts</h1>
 			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
 				{posts.map((post) => (
 					<Link
@@ -13,7 +22,7 @@ const page = () => {
 						href={`/posts/${post.id}`}
 					>
 						<h2 className=''>{post.title}</h2>
-						<p>Written by: {post.username}</p>
+						<p>Written by: {post.author?.name}</p>
 					</Link>
 				))}
 			</div>
