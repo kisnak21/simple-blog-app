@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 
-import 'react-quill/dist/quill.snow.css'
-import ReactTextareaAutosize from 'react-textarea-autosize'
+// import ReactTextareaAutosize from 'react-textarea-autosize'
 
 const FormPost = () => {
 	const [formdata, setFormdata] = useState<FormData>({
@@ -39,17 +38,21 @@ const FormPost = () => {
 
 	const modules = {
 		toolbar: [
-			[{ font: [] }],
-			[{ header: [1, 2, 3, 4, 5, 6, false] }],
-			['bold', 'italic', 'underline', 'strike'],
-			[{ color: [] }, { background: [] }],
-			[{ script: 'sub' }, { script: 'super' }],
-			['blockquote', 'code-block'],
-			[{ list: 'ordered' }, { list: 'bullet' }],
-			[{ indent: '-1' }, { indent: '+1' }, { align: [] }],
+			[{ header: '1' }, { header: '2' }, { font: [] }],
+			[{ size: [] }],
+			['bold', 'italic', 'underline', 'strike', 'blockquote'],
+			[
+				{ list: 'ordered' },
+				{ list: 'bullet' },
+				{ indent: '-1' },
+				{ indent: '+1' },
+			],
 			['link', 'image', 'video'],
 			['clean'],
 		],
+		clipboard: {
+			matchVisual: false,
+		},
 	}
 
 	const formats = [
@@ -60,18 +63,15 @@ const FormPost = () => {
 		'italic',
 		'underline',
 		'strike',
-		'color',
-		'background',
+		'blockquote',
 		'list',
 		'bullet',
 		'indent',
 		'link',
 		'image',
 		'video',
-		'align',
-		'code-block',
-		'code',
 	]
+
 	return (
 		<form
 			className='max-w-md mx-auto p-2'
@@ -79,6 +79,7 @@ const FormPost = () => {
 		>
 			<div className='mb-4'>
 				<input
+					required
 					type='text'
 					className='inputClass'
 					name='title'
