@@ -4,6 +4,9 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import ReactQuill from 'react-quill'
+
+import 'react-quill/dist/quill.snow.css'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 
 const FormPost = () => {
@@ -33,6 +36,42 @@ const FormPost = () => {
 			console.error(error)
 		}
 	}
+
+	const modules = {
+		toolbar: [
+			[{ font: [] }],
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			['bold', 'italic', 'underline', 'strike'],
+			[{ color: [] }, { background: [] }],
+			[{ script: 'sub' }, { script: 'super' }],
+			['blockquote', 'code-block'],
+			[{ list: 'ordered' }, { list: 'bullet' }],
+			[{ indent: '-1' }, { indent: '+1' }, { align: [] }],
+			['link', 'image', 'video'],
+			['clean'],
+		],
+	}
+
+	const formats = [
+		'header',
+		'font',
+		'size',
+		'bold',
+		'italic',
+		'underline',
+		'strike',
+		'color',
+		'background',
+		'list',
+		'bullet',
+		'indent',
+		'link',
+		'image',
+		'video',
+		'align',
+		'code-block',
+		'code',
+	]
 	return (
 		<form
 			className='max-w-md mx-auto p-2'
@@ -49,13 +88,22 @@ const FormPost = () => {
 				/>
 			</div>
 			<div className='mb-4'>
-				<ReactTextareaAutosize
+				{/* <ReactTextareaAutosize
 					minRows={5}
 					name='content'
 					className='inputClass'
 					placeholder='Enter Content'
 					value={formdata.content}
 					onChange={handleChange}
+				/> */}
+				<ReactQuill
+					modules={modules}
+					formats={formats}
+					theme='snow'
+					value={formdata.content}
+					onChange={(e) => {
+						setFormdata({ ...formdata, content: e })
+					}}
 				/>
 			</div>
 			<button
